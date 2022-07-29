@@ -8,7 +8,8 @@ Class dbObj{
     var $dbname = "crud";
     var $port = "5432";
     var $conn;
-    function getConnstring() {
+    
+	function getConnstring() {
 		$con = pg_connect("host=".$this->servername." port=".$this->port." dbname=".$this->dbname." user=".$this->username." password=".$this->password."") or die("Connection failed: ".pg_last_error());
 
 		/* check connection */
@@ -16,10 +17,12 @@ Class dbObj{
 			printf("Connect failed: %s\n", pg_last_error());
 			exit();
 		} else {
+			//echo 'connected';
 			$this->conn = $con;
 		}
 		return $this->conn;
     }
+	
 }
 
 ?>

@@ -11,7 +11,7 @@ class manpower {
 		
 	}
 	
-	public function getSkills(){
+	public function getSkills1(){
 		
 		$sql = "select * from mst_skillsets";
 		$qry_records = pg_query($this->conn,$sql) or die("Problem On Insert Record".pg_last_error());
@@ -19,6 +19,26 @@ class manpower {
 		return $data;
 		
 	}	
+	
+	public function getSkills(){
+		
+		$selectfields = array("sid" => "");
+		$qry_records = pg_select($this->conn,'mst_skillsets',$selectfields) or die("Problem On Select Record".pg_last_error());
+		//var_dump($qry_records);
+		if($qry_records){
+			
+			$resp = $qry_records;
+		
+		}else{
+			
+			$resp='Problem On Select Records';
+		}	
+			
+		return $resp;
+	}
+	
+	
+	
 	
 	public function EditSkills(){
 		
@@ -33,6 +53,7 @@ class manpower {
 		
 		if(isset($_POST['skill_name'])){
 			
+			$data = $resp = array();
 			$sql = "select * from mst_skillsets where lower(skillset)='".strtolower($_POST['skill_name'])."'";
 			$qry_records = pg_query($this->conn,$sql) or die("Problem On Insert Record".pg_last_error());
 			$rows = pg_num_rows($qry_records);
@@ -72,7 +93,7 @@ class manpower {
         return $resp;
 	}
 	
-	function DeleteSkills() {
+	function DeleteSkills1() {
 		
 		if(isset($_POST['sid'])){
 			
@@ -88,7 +109,18 @@ class manpower {
 		
 		return $res;
 	}
-
+	
+	function DeleteSkills(){
+		$selectfields = array("sid" => $_POST['sid']);
+		$qry_records = pg_delete($this->conn,'mst_skillsets',$selectfields) or die(pg_last_error());
+		if($qry_records){
+			$res = 'Records Deleted Sucessfully';
+		}else{
+			$res = 'Problem on Delete Records';
+		}
+		//exit();
+		return $res;
+	}
 
 }
 ?>
